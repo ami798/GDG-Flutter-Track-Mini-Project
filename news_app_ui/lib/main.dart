@@ -22,11 +22,92 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('News App'), centerTitle: true),
-      body: ListView(
-        padding: const EdgeInsets.all(12),
-        children: const [NewsCard(), NewsCard(), NewsCard(), NewsCard()],
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('News App'),
+          centerTitle: true,
+          bottom: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.home), text: 'Home'),
+              Tab(icon: Icon(Icons.category), text: 'Categories'),
+              Tab(icon: Icon(Icons.person), text: 'About'),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [NewsListPage(), CategoriesPage(), AboutPage()],
+        ),
+      ),
+    );
+  }
+}
+
+class NewsListPage extends StatelessWidget {
+  const NewsListPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.all(12),
+      children: const [NewsCard(), NewsCard(), NewsCard(), NewsCard()],
+    );
+  }
+}
+
+class CategoriesPage extends StatelessWidget {
+  const CategoriesPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final categories = [
+      'Technology',
+      'Business',
+      'Sports',
+      'Health',
+      'Education',
+    ];
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: categories.length,
+      itemBuilder: (context, index) {
+        return Card(
+          child: ListTile(
+            leading: const Icon(Icons.label),
+            title: Text(categories[index]),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.person, size: 80),
+            SizedBox(height: 16),
+            Text(
+              'Amira News App',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Flutter UI Mini Project\nBuilt for learning purposes.',
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
